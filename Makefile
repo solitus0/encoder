@@ -1,5 +1,5 @@
 install:
-	pipenv install
+	pipenv install --editable .
 
 shell:
 	pipenv shell
@@ -11,4 +11,4 @@ remove:
 	pipenv --rm
 
 run:
-	pipenv run python3 main.py
+	pipenv run python3 bin/run.py

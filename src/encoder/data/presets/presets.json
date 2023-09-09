@@ -1,0 +1,30 @@
+{
+  "PresetList": [
+    {
+      "PresetName": "hevc_fhd",
+      "AudioBitrate": "128k",
+      "AudioEncoder": "libopus",
+      "AudioMixdown": "2",
+      "AudioSamplerate": "48000",
+      "FileFormat": "matroska",
+      "PictureWidth": 1920,
+      "PictureHeight": 1080,
+      "VideoEncoder": "libx265",
+      "VideoPreset": "slow",
+      "VideoQualitySlider": 22
+    },
+    {
+      "PresetName": "av1_fhd",
+      "AudioBitrate": "128k",
+      "AudioEncoder": "libopus",
+      "AudioMixdown": "2",
+      "AudioSamplerate": "48000",
+      "FileFormat": "matroska",
+      "PictureWidth": 1920,
+      "PictureHeight": 1080,
+      "VideoEncoder": "libaom-av1",
+      "VideoPreset": "slow",
+      "VideoQualitySlider": 22
+    }
+  ]
+}

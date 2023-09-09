@@ -1,0 +1,26 @@
+{
+  "files.exclude": {
+    "**/*.pyc": true,
+    "**/*.min.js": true,
+    "**/*.js.map": true,
+    "/static/": true,
+    "node_modules": true,
+    "htmlcov": true,
+    "build": true,
+    "*.log": true,
+    "*.egg-info": true
+  },
+  "editor.formatOnSave": true,
+  "search.followSymlinks": false,
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+  "files.insertFinalNewline": true,
+  "vetur.format.enable": false,
+  "isort.args": ["--settings-path", "${workspaceFolder}/setup.cfg"],
+  "flake8.args": ["--config", "${workspaceFolder}/setup.cfg"],
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": false
+    }
+  }
+}

@@ -4,9 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "*"
 uvicorn = "*"
 sqlalchemy = "*"
+ffmpeg-python = "*"
+fastapi = {extras = ["all"], version = "*"}
+sse-starlette = "*"
+asyncio = "*"
+pika = "*"
+aio-pika = "*"
+encoder = {editable = true, path = "."}
 
 [dev-packages]
 
