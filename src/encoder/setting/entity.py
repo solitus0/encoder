@@ -1,7 +1,7 @@
 import datetime
 from dataclasses import dataclass
 
-from sqlalchemy import JSON, Column, DateTime, Integer, String
+from sqlalchemy import Column, DateTime, Integer, String
 
 from ..database import Base
 

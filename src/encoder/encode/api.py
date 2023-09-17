@@ -7,9 +7,17 @@ from encoder.media import file_system
 from encoder.encode import repository
 from encoder.media import repository as media_repository
 from encoder.database import get_db
-from encoder.encode.schemas import EncodeCommand, EncodeQuery, EncodeView
+from encoder.encode.schemas import (
+    EncodeCommand,
+    EncodeQuery,
+    EncodeView,
+    DeleteEncode,
+    QueduedEncodeView,
+)
 from encoder.encode.enqueuer import EncodeEnqueuer
 from encoder.permissions.security import has_permission
+from typing import List
+from encoder.encode.entity import Encode
 
 from encoder.config import (
     RABBITMQ_ENCODE_PROGRESS_QUEUE,
@@ -55,6 +63,22 @@ def list_encodes(
     encodes = repository.list_encodes_by_uuid(db, query.media_uuid)
 
     return encodes
+
+
+@router.get(
+    "/api/encodes/queued", tags=["encode"], response_model=List[QueduedEncodeView]
+)
+def list_queue_encodes(db: Session = Depends(get_db)) -> list[Encode]:
+    result = repository.get_queued(db)
+
+    return result
+
+
+@router.delete("/api/encodes/queued", tags=["encode"], status_code=204)
+def delete_encode(
+    db: Session = Depends(get_db),
+) -> None:
+    repository.delete_queued(db)
 
 
 @router.get("/sse", tags=["encodes"])

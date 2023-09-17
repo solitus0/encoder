@@ -66,8 +66,20 @@ class EncodeView(BaseEncode):
     source_size: float
     created_at: datetime
     output_size: Optional[float] = None
-    command: Optional[str] = None
+    command: Optional[list] = None
     duration_in_seconds: Optional[float] = None
+
+    class Config:
+        from_attributes = True
+
+
+class QueduedEncodeView(BaseEncode):
+    id: int
+    media_uuid: str
+    source_path: str
+    source_size: float
+    created_at: datetime
+    command: Optional[list] = None
 
     class Config:
         from_attributes = True
@@ -89,6 +101,10 @@ class EncodeCommand(BaseModel):
 
 class EncodeQuery(BaseModel):
     media_uuid: str
+
+
+class DeleteEncode(BaseModel):
+    id: int
 
 
 class EncodeComplete(BaseModel):

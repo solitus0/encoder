@@ -13,8 +13,8 @@ def initialize_encode(db: Session, data: encode_schemas.InitializeEncode) -> Enc
     return db_encode
 
 
-def get_encode_by_uuid(db: Session, media_uuid: str) -> Encode:
-    return db.query(Encode).filter(Encode.media_uuid == media_uuid).first()
+def get_encode_by_uuid(db: Session, id: int) -> Encode:
+    return db.query(Encode).filter(Encode.id == id).first()
 
 
 def get_encode_by_uuid_and_status(
@@ -25,6 +25,26 @@ def get_encode_by_uuid_and_status(
         .filter(Encode.media_uuid == media_uuid, Encode.status == status)
         .first()
     )
+
+
+def get_queued(db: Session) -> Encode:
+    return db.query(Encode).filter(Encode.status == "queued").all()
+
+
+def delete(db: Session, id: int) -> None:
+    encode = db.query(Encode).filter(Encode.id == id).first()
+
+    db.delete(encode)
+    db.commit()
+
+
+def delete_queued(db: Session) -> None:
+    encodes = db.query(Encode).filter(Encode.status == "queued").all()
+
+    for encode in encodes:
+        db.delete(encode)
+
+    db.commit()
 
 
 def update_encode(

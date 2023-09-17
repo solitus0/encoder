@@ -19,7 +19,7 @@ class EncodeEnqueuer:
 
     def enqueue_media_for_processing(self, media: Media, preset: Preset) -> Encode:
         if not self.file_manager.file_exist(media.file_path):
-            return None
+            raise RuntimeError(f"File {media.file_path} does not exist")
 
         command = self._build_ffmpeg_command(media, preset)
         message = self._prepare_encode_data(media, command)
