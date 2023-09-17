@@ -2,8 +2,8 @@ from typing import Any, List
 
 from fastapi import HTTPException
 
-from . import crud
-from .database import get_db
+from encoder.encode import repository
+from encoder.database import get_db
 
 
 class Voter:
@@ -24,7 +24,7 @@ class MediaVoter(Voter):
         db_generator = get_db()
         db = next(db_generator)
 
-        queued_encode = crud.get_encode_by_uuid_and_status(db, subject.uuid)
+        queued_encode = repository.get_encode_by_uuid_and_status(db, subject.uuid)
 
         return queued_encode is None
 

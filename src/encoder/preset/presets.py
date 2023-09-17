@@ -2,19 +2,19 @@ import json
 import os
 from typing import List
 
-from encoder import schemas
+from encoder.preset.schemas import Preset
 
 
 class PresetsCollection:
     def __init__(self):
         self.loader = PresetLoader()
 
-    def get(self, name: str) -> schemas.Preset:
+    def get(self, name: str) -> Preset:
         preset = self.loader.get(name)
-        return schemas.Preset(**preset)
+        return Preset(**preset)
 
-    def all(self) -> List[schemas.Preset]:
-        return [schemas.Preset(**preset) for preset in self.loader.all()]
+    def all(self) -> List[Preset]:
+        return [Preset(**preset) for preset in self.loader.all()]
 
 
 class PresetLoader:

@@ -1,11 +1,12 @@
 import logging
 import os
 import unicodedata
-
 from sqlalchemy.orm import Session
-
-from . import crud, models, schemas
-from .config import MEDIA_EXTENSIONS, EXCLUDE_FOLDERS, TEMP_FOLDER
+from encoder.media import repository
+from encoder.config import MEDIA_EXTENSIONS, EXCLUDE_FOLDERS, TEMP_FOLDER
+from encoder.setting import entity
+from encoder.setting import repository as setting_repository
+from encoder.setting.schemas import SettingKeyEnum
 
 
 class DirectoryScanner:
@@ -16,8 +17,8 @@ class DirectoryScanner:
             os.path.join(self._scan_dir, folder) for folder in EXCLUDE_FOLDERS
         ]
 
-    def get_scan_path_setting(self) -> models.Settings:
-        return crud.get_setting(self._db, schemas.SettingKeyEnum.scan_path)
+    def get_scan_path_setting(self) -> entity.Settings:
+        return setting_repository.get_setting(self._db, SettingKeyEnum.scan_path)
 
     def get_scan_path(self) -> str:
         setting = self.get_scan_path_setting()
@@ -58,8 +59,8 @@ class FileManager:
 
         return os.path.join(setting.value, TEMP_FOLDER)
 
-    def get_temp_path_setting(self) -> models.Settings:
-        return crud.get_setting(self._db, schemas.SettingKeyEnum.temp_path)
+    def get_temp_path_setting(self) -> entity.Settings:
+        return setting_repository.get_setting(self._db, SettingKeyEnum.temp_path)
 
     def get_encode_temp_path(self, original_path: str) -> str:
         dest_dir = os.path.join(self.get_temp_dir(), "encodes")

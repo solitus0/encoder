@@ -1,0 +1,21 @@
+version: "3"
+
+networks:
+  encoder:
+    driver: bridge
+
+services:
+  encoder:
+    container_name: encoder_local
+    hostname: encoder_local
+    restart: unless-stopped
+    build:
+      context: .
+    volumes:
+      - .:/var/www/api
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    ports:
+      - 8090:8090
+    networks:
+      - encoder
