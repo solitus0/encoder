@@ -8,14 +8,14 @@ from encoder.database import get_db
 router = APIRouter()
 
 
-@router.post("/api/settings/", response_model=schemas.SettingsInDB)
+@router.post("/api/settings/", response_model=schemas.SettingsInDB, status_code=201)
 def create_setting(setting: schemas.SettingsCreate, db: Session = Depends(get_db)):
     return repository.create_setting(db=db, setting=setting)
 
 
-@router.get("/api/settings/{setting_key}", response_model=schemas.SettingsInDB)
-def read_setting(setting_key: str, db: Session = Depends(get_db)):
-    db_setting = repository.get_setting(db, setting_key=setting_key)
+@router.get("/api/settings/{id}", response_model=schemas.SettingsInDB)
+def read_setting(id: int, db: Session = Depends(get_db)):
+    db_setting = repository.get_setting(db, id=id)
     if db_setting is None:
         raise HTTPException(status_code=404, detail="Setting not found")
     return db_setting
@@ -27,23 +27,23 @@ def read_settings(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     return settings
 
 
-@router.put("/api/settings/{setting_key}", response_model=schemas.SettingsInDB)
+@router.put("/api/settings/{id}", response_model=schemas.SettingsInDB)
 def update_setting(
-    setting_key: str, setting: schemas.SettingsUpdate, db: Session = Depends(get_db)
+    id: int, setting: schemas.SettingsUpdate, db: Session = Depends(get_db)
 ):
-    db_setting = repository.get_setting(db, setting_key=setting_key)
+    db_setting = repository.get_setting(db, id=id)
     if db_setting is None:
         raise HTTPException(status_code=404, detail="Setting not found")
-    return repository.update_setting(db=db, setting_key=setting_key, setting=setting)
+    return repository.update_setting(db=db, id=id, setting=setting)
 
 
 @router.delete(
-    path="/api/settings/{setting_key}",
+    path="/api/settings/{id}",
     status_code=204,
 )
-def delete_setting(setting_key: str, db: Session = Depends(get_db)):
-    db_setting = repository.get_setting(db, setting_key=setting_key)
+def delete_setting(id: int, db: Session = Depends(get_db)):
+    db_setting = repository.get_setting(db, id=id)
     if db_setting is None:
-        raise HTTPException(status_code=404, detail="Setting not found")
+        raise HTTPException(status_code=404, detail=f"Setting {id} not found")
 
-    repository.delete_setting(db=db, setting_key=setting_key)
+    repository.delete_setting(db=db, id=id)

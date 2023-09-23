@@ -11,7 +11,6 @@ from encoder.encode.schemas import (
     EncodeCommand,
     EncodeQuery,
     EncodeView,
-    DeleteEncode,
     QueduedEncodeView,
 )
 from encoder.encode.enqueuer import EncodeEnqueuer

@@ -12,18 +12,16 @@ def create_setting(db: Session, setting: schemas.SettingsCreate):
     return db_setting
 
 
-def get_setting(db: Session, setting_key: str) -> entity.Settings:
-    return db.query(entity.Settings).filter(entity.Settings.key == setting_key).first()
+def get_setting(db: Session, id: int) -> entity.Settings:
+    return db.query(entity.Settings).filter(entity.Settings.id == id).first()
 
 
 def get_settings(db: Session, skip: int = 0, limit: int = 100):
     return db.query(entity.Settings).offset(skip).limit(limit).all()
 
 
-def update_setting(db: Session, setting_key: str, setting: schemas.SettingsUpdate):
-    db_setting = (
-        db.query(entity.Settings).filter(entity.Settings.key == setting_key).first()
-    )
+def update_setting(db: Session, id: int, setting: schemas.SettingsUpdate):
+    db_setting = db.query(entity.Settings).filter(entity.Settings.id == id).first()
     for key, value in setting.model_dump().items():
         setattr(db_setting, key, value)
     db.commit()
@@ -31,9 +29,7 @@ def update_setting(db: Session, setting_key: str, setting: schemas.SettingsUpdat
     return db_setting
 
 
-def delete_setting(db: Session, setting_key: str):
-    db_setting = (
-        db.query(entity.Settings).filter(entity.Settings.key == setting_key).first()
-    )
+def delete_setting(db: Session, id: int):
+    db_setting = db.query(entity.Settings).filter(entity.Settings.id == id).first()
     db.delete(db_setting)
     db.commit()
