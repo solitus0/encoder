@@ -20,12 +20,17 @@ def get_permissions(db: Session = Depends(get_db)):
             return False
         return os.path.isdir(path.value) and os.access(path.value, os.W_OK)
 
-    scan_path = repository.get_setting(db, schemas.SettingKeyEnum.scan_path)
+    scan_dir_settings = repository.get_by_key(db, schemas.SettingKeyEnum.scan_path)
     temp_path = repository.get_setting(db, schemas.SettingKeyEnum.temp_path)
     rabbitmq_health = rabbitmq_health_check()
 
-    is_scan_path_ok = check_path(scan_path)
     is_temp_path_ok = check_path(temp_path)
+
+    is_scan_path_ok = False
+    for scan_path in scan_dir_settings:
+        is_scan_path_ok = check_path(scan_path)
+        if is_scan_path_ok:
+            break
 
     return {
         "scan_path": is_scan_path_ok,

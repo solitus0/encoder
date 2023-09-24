@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
+import os
 
 
 class SettingKeyEnum(str, Enum):
@@ -25,3 +26,7 @@ class SettingsInDB(SettingsBase):
     id: int
     created_at: datetime
     updated_at: datetime
+
+
+class SettingView(SettingsInDB):
+    valid: bool

@@ -12,8 +12,16 @@ def create_setting(db: Session, setting: schemas.SettingsCreate):
     return db_setting
 
 
-def get_setting(db: Session, id: int) -> entity.Settings:
+def get_by_id(db: Session, id: int) -> entity.Settings:
     return db.query(entity.Settings).filter(entity.Settings.id == id).first()
+
+
+def get_setting(db: Session, key: str) -> entity.Settings:
+    return db.query(entity.Settings).filter(entity.Settings.key == key).first()
+
+
+def get_by_key(db: Session, key: str) -> list[entity.Settings]:
+    return db.query(entity.Settings).filter(entity.Settings.key == key)
 
 
 def get_settings(db: Session, skip: int = 0, limit: int = 100):
