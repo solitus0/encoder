@@ -31,7 +31,7 @@ def read_setting(id: int, db: Session = Depends(get_db)):
 
 @router.get("/api/settings", response_model=List[schemas.SettingView])
 def read_settings(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    settings = repository.get_by_id(db, skip=skip, limit=limit)
+    settings = repository.get_settings(db, skip=skip, limit=limit)
     for setting in settings:
         setting.valid = check_path(setting)
 
